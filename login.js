@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------
-    // 1. CONSTANTES E LÓGICA GERAL (AUTENTICAÇÃO)
+    // CONSTANTES E LÓGICA GERAL (AUTENTICAÇÃO)
     // ----------------------------------------------------
     const logoutButton = document.getElementById('logoutBtn');
     
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // ----------------------------------------------------
-    // 2. LÓGICA DE LOGIN (Página login.html)
+    // LÓGICA DE LOGIN (Página login.html)
     // ----------------------------------------------------
     const loginForm = document.getElementById('loginForm') || document.querySelector('.login-form');
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----------------------------------------------------
-    // 3. LÓGICA DE CADASTRO (Página cadastro.html)
+    // LÓGICA DE CADASTRO (Página cadastro.html)
     // ----------------------------------------------------
     const registerForm = document.getElementById('registerForm') || document.querySelector('.register-form'); 
 
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----------------------------------------------------
-    // 4. LÓGICA DE EVENTOS (eventos.html) - CORRIGIDA
+    //  (eventos.html)
     // ----------------------------------------------------
     if (window.location.pathname.endsWith('eventos.html')) {
         
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (welcomeText) welcomeText.innerHTML = `Bem-vindo(a), <span class="user-name">${username}</span>!`;
         }
 
-        // --- 4.2. Função de Geração de Gráfico ---
+        // ---  Função de Geração de Gráfico ---
         function renderChart(dailySales) {
             chartContainer.innerHTML = ''; // Limpa o container anterior
             
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // --- 4.3. Lógica dos Cards (Abre Modal de Dashboard para Funcionários) ---
+        // ---Lógica dos Cards (Abre Modal de Dashboard para Funcionários) ---
         const eventCards = document.querySelectorAll('.event-card');
 
         eventCards.forEach(card => {
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // --- 4.4. Funções de População dos Modais CRUD ---
+        // --- Funções de População dos Modais CRUD ---
 
         function populateEventosModal(eventName, eventDetails) {
             crudEventosTitle.textContent = eventName;
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // --- 4.5. Lógica de Abertura e Fechamento dos Modais ---
+        // --- Lógica de Abertura e Fechamento dos Modais ---
 
         // Função para fechar qualquer CRUD e voltar para o Dashboard
         function closeCrudAndReturnToDashboard(crudModal) {
@@ -394,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----------------------------------------------------
-    // 5. LÓGICA DE INDEX (index.html) - EXIBIÇÃO DA NAVBAR
+    // INDEX (index.html) - EXIBIÇÃO DA NAVBAR
     // ----------------------------------------------------
     if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
         const userEmail = localStorage.getItem('userEmail');
