@@ -9,19 +9,225 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* Estilos iniciais para esconder botões de logout e de CRUD (Serão alterados pelo JS) */
-        .logout { display: none; }
+        /* ESTILOS GERAIS */
         .login, .signup { display: none; }
+        .user-welcome-container {
+            display: none;
+            align-items: center;
+            padding: 0 15px;
+            color: #ccc;
+            font-size: 0.9em;
+        }
+        .user-name {
+            font-weight: bold;
+            color: #fff;
+            margin-right: 15px;
+        }
+        .btn.logout {
+            margin-left: 10px;
+            white-space: nowrap;
+            padding: 8px 15px;
+        }
+        .event-card { cursor: pointer; }
+        /* Garantindo que o link do funcionário não tenha o comportamento padrão do A */
+        .card-no-link { text-decoration: none; color: inherit; } 
 
-        /* Classe para forçar cursor de ponteiro nos cards */
-        .event-card {
+        /* ======================================================= */
+        /* ESTILOS DO MODAL (DASHBOARD) */
+        /* ======================================================= */
+        
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .modal-content {
+            background-color: #2c2c2c;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #ff6b6b;
+            width: 90%;
+            max-width: 800px; 
+            border-radius: 10px;
+            text-align: left;
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
             cursor: pointer;
         }
+        .modal-title {
+            color: white;
+            border-bottom: 2px solid #ff6b6b;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
 
-        /* Classe para desativar o link do card quando for modo funcionário */
-        .card-no-link {
+        /* Dashboard Metrics */
+        .dashboard-metrics {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .metric-card {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 150px;
+            text-align: center;
+            flex: 1;
+        }
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        .metric-label {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-top: 5px;
+        }
+
+        /* Gráfico Simulado (CSS PURE) */
+        .dashboard-chart {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .chart-bar-container {
+            display: flex;
+            align-items: flex-end;
+            height: 150px; 
+            border-left: 1px solid #aaa;
+            border-bottom: 1px solid #aaa;
+            gap: 10px;
+            padding-left: 5px;
+            position: relative;
+            margin-bottom: 30px; 
+        }
+        .chart-bar {
+            width: 50px;
+            background-color: #ff6b6b;
+            text-align: center;
+            color: white;
+            font-size: 0.8em;
+            line-height: 20px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            transition: height 0.5s;
+            position: relative;
+        }
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            width: 100%;
+            text-align: center;
+            color: #ccc;
+            font-size: 0.7em;
+        }
+        
+        /* CRUD Buttons */
+        .crud-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .crud-buttons .btn {
+            padding: 10px 20px;
+            flex: 1;
+            max-width: 250px;
+            background-color: #4a4a4a;
+            color: white;
             text-decoration: none;
-            color: inherit;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .crud-buttons .btn:hover {
+            background-color: #ff6b6b;
+        }
+
+        /* ======================================================= */
+        /* ESTILOS DOS CRUDS (FORMULÁRIOS E TABELAS) */
+        /* ======================================================= */
+
+        .crud-form .form-group {
+            margin-bottom: 15px;
+        }
+        .crud-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+            font-weight: bold;
+        }
+        .crud-form input[type="text"], 
+        .crud-form input[type="number"],
+        .crud-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1a1a1a;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .crud-submit {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .crud-submit:hover {
+            background-color: #e05e5e;
+        }
+        
+        /* Tabela CRUD Ingressos */
+        .crud-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: #fff;
+        }
+        .crud-table th, .crud-table td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+        }
+        .crud-table th {
+            background-color: #1a1a1a;
+            color: #ff6b6b;
+        }
+        .crud-table tr:nth-child(even) {
+            background-color: #333;
+        }
+        .crud-table tr:hover {
+            background-color: #4a4a4a;
+        }
+        .action-btn {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-right: 10px;
+            transition: color 0.2s;
+        }
+        .action-btn:hover {
+            color: #fff;
         }
     </style>
 </head>
@@ -39,10 +245,13 @@
             <a href="https://moi-meme-moitie.com/" class="nav-item" target="_blank">Roupas</a>
             <a href="#" class="nav-item">Contate-nos</a>
 
-            <a href="login.html" class="btn login">Login</a>
-            <a href="cadastro.html" class="btn signup">Cadastre-se</a>
+            <a href="login.html" class="btn login" id="navLoginBtn">Login</a>
+            <a href="cadastro.html" class="btn signup" id="navSignupBtn">Cadastre-se</a>
             
-            <button class="btn logout" id="logoutBtn">Sair da Conta</button>
+            <div class="user-welcome-container" id="welcomeContainer">
+                <span id="welcomeText"></span>
+                <button class="btn logout" id="logoutBtn">Sair da Conta</button>
+            </div>
         </nav>
     </header>
 
@@ -69,17 +278,16 @@
 
         <div class="events-intro">
             <p class="intro-text">Sua plataforma para divulgação e venda de ingressos para seus eventos</p>
-            <p class="intro-subtitle">Principais eventos:</p>
+            <p class="intro-subtitle">Principais eventos (Clique no card para abrir o Dashboard):</p>
         </div>
 
         <section class="events-list">
             
-            <div class="event-card" id="bioDementiaCard" data-event-name="Bio Dementia" data-ticket-price="25" data-capacity="400" data-link="https://www.sympla.com.br/evento/bio-dementia/2046255">
-                <a href="https://www.sympla.com.br/evento/bio-dementia/2046255" target="_blank" class="event-link-wrapper" id="bioDementiaLink">
+            <div class="event-card" id="bioDementiaCard" data-event-id="1" data-event-name="Bio Dementia" data-ticket-price="25" data-capacity="400" data-link="https://www.sympla.com.br/evento/bio-dementia/2046255">
+                <a href="#" class="event-link-wrapper card-no-link" id="bioDementiaLink">
                     <div class="event-image-container">
-                        <img src="images/bloodrock.jpg" alt="Capa Bio Dementia" class="card-cover-image">
+                        <img src="images/bio dementia.jpg" alt="Capa Bio Dementia" class="card-cover-image">
                     </div>
-                    
                     <div class="event-details-content">
                         <h2 class="event-title">Bio Dementia</h2>
                         <div class="event-icon-info">
@@ -93,17 +301,16 @@
                 </a>
             </div>
 
-            <div class="event-card" id="vampiresNightCard" data-event-name="Vampire's Night" data-ticket-price="50" data-capacity="700" data-link="#">
-                <a href="#" class="event-link-wrapper" id="vampiresNightLink">
+            <div class="event-card" id="vampiresNightCard" data-event-id="2" data-event-name="Vampire's Night" data-ticket-price="50" data-capacity="700" data-link="https://seulink.com.br/vampires-night">
+                <a href="#" class="event-link-wrapper card-no-link" id="vampiresNightLink">
                     <div class="event-image-container">
-                        <img src="images/vampires_night_cover.jpg" alt="Capa Vampire's Night" class="card-cover-image">
+                        <img src="images/vampire.jpg" alt="Capa Vampire's Night" class="card-cover-image">
                     </div>
-                    
                     <div class="event-details-content">
                         <h2 class="event-title">Vampire's Night</h2>
                         <div class="event-icon-info">
                             <div class="event-icon">
-                                <img src="images/tork_icon.png" alt="Tork n' Roll Icon" class="icon-img">
+                                <img src="images/tork.png" alt="Tork n' Roll Icon" class="icon-img">
                             </div>
                             <p class="event-venue">Tork n' Roll</p>
                         </div>
@@ -112,17 +319,16 @@
                 </a>
             </div>
 
-            <div class="event-card" id="noirFestCard" data-event-name="Noir Fest" data-ticket-price="75" data-capacity="1200" data-link="#">
-                <a href="#" class="event-link-wrapper" id="noirFestLink">
+            <div class="event-card" id="noirFestCard" data-event-id="3" data-event-name="Noir Fest" data-ticket-price="75" data-capacity="1200" data-link="https://seulink.com.br/noir-fest">
+                <a href="#" class="event-link-wrapper card-no-link" id="noirFestLink">
                     <div class="event-image-container">
-                        <img src="images/noir_fest_cover.jpg" alt="Capa Noir Fest" class="card-cover-image">
+                        <img src="images/noir.jpg" alt="Capa Noir Fest" class="card-cover-image">
                     </div>
-                    
                     <div class="event-details-content">
                         <h2 class="event-title">Noir Fest</h2>
                         <div class="event-icon-info">
                             <div class="event-icon">
-                                <img src="images/jokerspub_icon.png" alt="Jokers Pub Icon" class="icon-img">
+                                <img src="images/jokerspub.jpg" alt="Jokers Pub Icon" class="icon-img">
                             </div>
                             <p class="event-venue">Jokers Pub</p>
                         </div>
@@ -135,19 +341,110 @@
     </main>
 
     <div id="funcionarioModal" class="modal-overlay">
-        <div class="modal-content" style="background-color: var(--color-red-card);">
+        <div class="modal-content">
             <span class="close-btn" id="closeModalBtn">&times;</span>
-            <h2 class="modal-title">Ações do Evento: <span id="modalEventTitle"></span></h2>
+            <h2 class="modal-title">Dashboard do Evento: <span id="modalEventTitle"></span></h2>
             
-            <div class="modal-buttons">
-                <a href="#" class="btn modal-btn" id="dashboardBtn">Acessar Dashboard</a>
-                <a href="#" class="btn modal-btn" id="crud1Btn">CRUD de Eventos</a>
-                <a href="#" class="btn modal-btn" id="crud2Btn">CRUD de Ingressos</a>
+            <div class="dashboard-metrics">
+                <div class="metric-card">
+                    <div class="metric-value" id="metricVendas">0</div>
+                    <div class="metric-label">Ingressos Vendidos</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="metricReceita">R$ 0,00</div>
+                    <div class="metric-label">Receita Estimada</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="metricLotacao">0%</div>
+                    <div class="metric-label">Lotação (Capacidade: <span id="metricCapacidade">0</span>)</div>
+                </div>
             </div>
-            
-            <p class="modal-action-hint">Esta área é exclusiva para funcionários.</p>
+
+            <div class="dashboard-chart">
+                <h3 style="color: white; margin-bottom: 15px;">Vendas Diárias (Simulação)</h3>
+                <div class="chart-bar-container" id="chartContainer">
+                </div>
+            </div>
+
+            <div class="crud-buttons">
+                <a href="#" class="btn" id="crud1Btn">CRUD de Eventos</a>
+                <a href="#" class="btn" id="crud2Btn">CRUD de Ingressos</a>
+            </div>
         </div>
     </div>
+
+    <div id="crudEventosModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" id="closeEventosModalBtn">&times;</span>
+            <h2 class="modal-title">CRUD de Eventos: <span id="crudEventosTitle"></span></h2>
+            
+            <p style="color: #ccc;">Edite ou atualize os detalhes principais do evento.</p>
+
+            <form class="crud-form" id="eventosForm">
+                <div class="form-group">
+                    <label for="eventCrudNome">Nome do Evento:</label>
+                    <input type="text" id="eventCrudNome" name="nome" required> 
+                </div>
+
+                <div class="form-group">
+                    <label for="eventCrudCapacidade">Capacidade Total:</label>
+                    <input type="number" id="eventCrudCapacidade" name="capacidade" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="eventCrudDesc">Descrição do Evento:</label>
+                    <textarea id="eventCrudDesc" name="descricao" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="btn crud-submit" id="saveEventBtn"><i class="fas fa-save"></i> Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="crudIngressosModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" id="closeIngressosModalBtn">&times;</span>
+            <h2 class="modal-title">CRUD de Ingressos: <span id="crudIngressosTitle"></span></h2>
+
+            <p style="color: #ccc; margin-bottom: 20px;">Gerencie os tipos de ingressos, preços e lotes.</p>
+
+            <form class="crud-form" id="ticketForm">
+                <h3 class="crud-subtitle" style="color: #ff6b6b; margin-top: 20px;">Adicionar/Editar Ingresso</h3>
+                <input type="hidden" id="ticketId" value="">
+                <div class="form-group">
+                    <label for="ticketName">Nome do Tipo:</label>
+                    <input type="text" id="ticketName" required> 
+                </div>
+                <div class="form-group">
+                    <label for="ticketPrice">Preço (R$):</label>
+                    <input type="number" id="ticketPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="ticketQuantity">Quantidade do Lote:</label>
+                    <input type="number" id="ticketQuantity" required>
+                </div>
+                <button type="submit" class="btn crud-submit" id="saveTicketBtn"><i class="fas fa-plus"></i> Salvar Ingresso</button>
+            </form>
+
+            <h3 class="crud-subtitle" style="color: #ccc; margin-top: 30px; border-bottom: 1px solid #444; padding-bottom: 10px;">Lista de Tipos de Ingressos</h3>
+
+            <table class="crud-table">
+                <thead>
+                    <tr>
+                        <th>Nome do Tipo</th>
+                        <th>Preço (R$)</th>
+                        <th>Vendidos</th>
+                        <th>Lote/Qtde.</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="ingressosTableBody">
+                    <tr><td colspan="5" style="text-align: center;">Nenhum ingresso cadastrado.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
     <footer class="main-footer">
         <div class="footer-content">
@@ -159,7 +456,7 @@
                 </div>
                 <div class="social-links">
                     <a href="#" aria-label="X (Twitter)"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.youtube.com/watch?v=KzHpUA9y5Ec" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 </div>
@@ -171,136 +468,384 @@
                     <li><a href="https://github.com/Rhuuuyyyy">Trabalhe conosco</a></li>
                     <li><a href="https://github.com/AugustoNeon">Parcerias</a></li>
                     <li><a href="eventos.html">Eventos</a></li>
-                    <li><a href="#">Loja de Roupa</a></li>
+                    <li><a href="https://moi-meme-moitie.com">Loja de Roupa</a></li>
                 </ul>
             </div>
         </div>
     </footer>
 
+
     <script>
-        // --- 0. Lógica de Validação e Variáveis de Estado ---
-        
-        // Lê o estado do LocalStorage
-        const storedLogin = localStorage.getItem('isLoggedIn') === 'true';
-        const storedUserType = localStorage.getItem('userType');
-        
-        // Define as variáveis de estado com base no LocalStorage
-        const isLoggedIn = storedLogin;
-        const isFuncionario = storedLogin && storedUserType === 'funcionario'; 
-        
-        // Dados Simulados dos Eventos
-        const eventData = {
-            'Bio Dementia': {
-                sales: 380,
-                price: 25,
-                capacity: 400,
-                link: 'https://www.sympla.com.br/evento/bio-dementia/2046255'
-            },
-            "Vampire's Night": {
-                sales: 550,
-                price: 50,
-                capacity: 700,
-                link: 'https://seulink.com.br/vampires-night'
-            },
-            'Noir Fest': {
-                sales: 900,
-                price: 75,
-                capacity: 1200,
-                link: 'https://seulink.com.br/noir-fest'
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- 0. Lógica de Validação e Variáveis de Estado ---
+            
+            const userEmail = localStorage.getItem('userEmail');
+            const userType = localStorage.getItem('userType');
+            const isFuncionario = userType === 'funcionario';
+            
+            // Variável de estado para o evento atualmente selecionado
+            let currentEventId = null; 
+
+            // Redirecionamento de segurança: Garante que apenas funcionários acessem esta página.
+            if (!isFuncionario) {
+                alert('Acesso negado. Esta página é restrita a funcionários.');
+                window.location.href = 'index.html'; 
+                return; 
             }
-        };
 
-        const loginBtn = document.querySelector('.login');
-        const signupBtn = document.querySelector('.signup');
-        const logoutBtn = document.querySelector('.logout');
-        const modal = document.getElementById('funcionarioModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const modalEventTitle = document.getElementById('modalEventTitle');
-        const dashboardBtn = document.getElementById('dashboardBtn');
-        
-        // --- 1. Lógica da Navbar ---
-        if (isLoggedIn) {
-            // Se logado: Esconde Login/Cadastro, mostra Sair
-            loginBtn.style.display = 'none';
-            signupBtn.style.display = 'none';
-            logoutBtn.style.display = 'inline-block';
-        } else {
-            // Se não logado: Mostra Login/Cadastro, esconde Sair
-            loginBtn.style.display = 'inline-block';
-            signupBtn.style.display = 'inline-block';
-            logoutBtn.style.display = 'none';
-        }
-        
-        // Lógica de Logout: Limpa o LocalStorage
-        logoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userType');
-            alert('Você foi desconectado. Redirecionando para a página inicial...');
-            window.location.href = 'index.html'; 
-        });
+            // --- Dados Simulados dos Eventos (Inclui dados para CRUDS) ---
+            let allEventsData = {
+                '1': { // Bio Dementia
+                    id: 1,
+                    name: 'Bio Dementia',
+                    capacity: 400,
+                    description: 'Uma noite de Death Metal e muita insanidade.',
+                    dailySales: [50, 80, 120, 130], // Vendas Diárias para o gráfico
+                    ticketTypes: [
+                        { id: 101, name: 'Lote 1 (Promocional)', price: 25.00, quantity: 200, sold: 180 },
+                        { id: 102, name: 'Lote 2 (Padrão)', price: 35.00, quantity: 200, sold: 200 }
+                    ],
+                },
+                '2': { // Vampire's Night
+                    id: 2,
+                    name: "Vampire's Night",
+                    capacity: 700,
+                    description: 'Especial com Djs góticos e Darkwave.',
+                    dailySales: [100, 150, 200, 100],
+                    ticketTypes: [
+                        { id: 201, name: 'VIP (Acesso à banda)', price: 150.00, quantity: 100, sold: 90 },
+                        { id: 202, name: 'Pista', price: 50.00, quantity: 600, sold: 460 }
+                    ],
+                },
+                '3': { // Noir Fest
+                    id: 3,
+                    name: 'Noir Fest',
+                    capacity: 1200,
+                    description: 'O maior festival de Post-Punk e Coldwave do sul.',
+                    dailySales: [250, 300, 200, 150],
+                    ticketTypes: [
+                        { id: 301, name: 'Lote Único', price: 75.00, quantity: 1200, sold: 900 }
+                    ],
+                }
+            };
 
-        // --- 2. Lógica dos Cards (Funcionalidade de Modal ou Link) ---
+            // Função para calcular métricas (Vendas e Receita)
+            function calculateMetrics(eventData) {
+                const totalSales = eventData.ticketTypes.reduce((sum, ticket) => sum + ticket.sold, 0);
+                const totalRevenue = eventData.ticketTypes.reduce((sum, ticket) => sum + (ticket.price * ticket.sold), 0);
+                return { totalSales, totalRevenue };
+            }
+            
+            // Elementos da Navbar
+            const loginBtn = document.getElementById('navLoginBtn');
+            const signupBtn = document.getElementById('navSignupBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const welcomeContainer = document.getElementById('welcomeContainer');
+            const welcomeText = document.getElementById('welcomeText');
+            
+            // Elementos do Modal Dashboard
+            const modal = document.getElementById('funcionarioModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const modalEventTitle = document.getElementById('modalEventTitle');
+            const metricVendas = document.getElementById('metricVendas');
+            const metricReceita = document.getElementById('metricReceita');
+            const metricLotacao = document.getElementById('metricLotacao');
+            const metricCapacidade = document.getElementById('metricCapacidade');
+            const chartContainer = document.getElementById('chartContainer');
+            const crud1Btn = document.getElementById('crud1Btn');
+            const crud2Btn = document.getElementById('crud2Btn');
 
-        const eventCards = document.querySelectorAll('.event-card');
-
-        eventCards.forEach(card => {
-            const eventName = card.getAttribute('data-event-name');
-            const data = eventData[eventName];
-            const eventLinkWrapper = card.querySelector('.event-link-wrapper');
-
-            if (!data) return;
-
+            // Elementos do CRUD Eventos
+            const crudEventosModal = document.getElementById('crudEventosModal');
+            const closeEventosModalBtn = document.getElementById('closeEventosModalBtn');
+            const crudEventosTitle = document.getElementById('crudEventosTitle');
+            const eventCrudNome = document.getElementById('eventCrudNome');
+            const eventCrudCapacidade = document.getElementById('eventCrudCapacidade');
+            const eventCrudDesc = document.getElementById('eventCrudDesc');
+            const eventosForm = document.getElementById('eventosForm');
+            
+            // Elementos do CRUD Ingressos
+            const crudIngressosModal = document.getElementById('crudIngressosModal');
+            const closeIngressosModalBtn = document.getElementById('closeIngressosModalBtn');
+            const crudIngressosTitle = document.getElementById('crudIngressosTitle');
+            const ingressosTableBody = document.getElementById('ingressosTableBody');
+            const ticketForm = document.getElementById('ticketForm');
+            const ticketId = document.getElementById('ticketId');
+            const ticketName = document.getElementById('ticketName');
+            const ticketPrice = document.getElementById('ticketPrice');
+            const ticketQuantity = document.getElementById('ticketQuantity');
+            
+            // --- 1. Lógica da Navbar (Boas-vindas e Logout) ---
             if (isFuncionario) {
-                // SE FUNCIONÁRIO: Abre Modal
-                eventLinkWrapper.href = '#';
-                eventLinkWrapper.classList.add('card-no-link');
+                loginBtn.style.display = 'none';
+                signupBtn.style.display = 'none';
+                welcomeContainer.style.display = 'flex';
                 
+                let username = 'Funcionário';
+                if (userEmail) {
+                    username = userEmail.split('@')[0];
+                    username = username.charAt(0).toUpperCase() + username.slice(1);
+                }
+                welcomeText.innerHTML = `Bem-vindo(a), <span class="user-name">${username}</span>!`;
+            }
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userType');
+                    alert('Você foi desconectado. Redirecionando para a página inicial...');
+                    window.location.href = 'index.html'; 
+                });
+            }
+
+            // --- 2. Função de Geração de Gráfico ---
+            function renderChart(dailySales) {
+                chartContainer.innerHTML = ''; 
+                
+                const maxSales = Math.max(...dailySales);
+                
+                dailySales.forEach((sales, index) => {
+                    const barHeight = (sales / maxSales) * 100; 
+                    
+                    const bar = document.createElement('div');
+                    bar.className = 'chart-bar';
+                    // Garante que a barra não seja zero, para a label aparecer
+                    bar.style.height = `${Math.max(barHeight, 5)}%`; 
+                    bar.innerHTML = `<span>${sales}</span>`;
+                    
+                    const label = document.createElement('span');
+                    label.className = 'chart-label';
+                    label.textContent = `Dia ${index + 1}`;
+                    
+                    bar.appendChild(label);
+                    chartContainer.appendChild(bar);
+                });
+            }
+            
+            // --- 3. Lógica dos Cards (Abre Modal de Dashboard) ---
+            const eventCards = document.querySelectorAll('.event-card');
+
+            eventCards.forEach(card => {
+                const eventName = card.getAttribute('data-event-name');
+                const eventId = card.getAttribute('data-event-id');
+                const data = allEventsData[eventId];
+                const eventLinkWrapper = card.querySelector('.event-link-wrapper'); 
+
+                if (!data) return;
+
                 eventLinkWrapper.addEventListener('click', (e) => {
                     e.preventDefault();
                     
-                    // Configura o modal com os dados específicos
+                    currentEventId = eventId; // Salva o ID do evento atual
+
+                    // 1. Preenche as Métricas
+                    const { totalSales, totalRevenue } = calculateMetrics(data);
+                    const ocupacao = ((totalSales / data.capacity) * 100).toFixed(1);
+                    const arrecadado = totalRevenue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    
                     modalEventTitle.textContent = eventName;
+                    metricVendas.textContent = totalSales;
+                    metricReceita.textContent = arrecadado;
+                    metricLotacao.textContent = `${ocupacao}%`;
+                    metricCapacidade.textContent = data.capacity;
                     
-                    const arrecadado = (data.sales * data.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                    const ocupacao = ((data.sales / data.capacity) * 100).toFixed(1);
-                    
-                    dashboardBtn.textContent = `Acessar Dashboard (${data.sales} vendas, ${arrecadado} Arrecadados, ${ocupacao}% lotado)`;
+                    // 2. Renderiza o Gráfico
+                    renderChart(data.dailySales);
                     
                     modal.style.display = 'block';
                 });
-                
-            } else {
-                // SE CLIENTE OU NÃO LOGADO: Link Externo (Sympla ou outro)
-                eventLinkWrapper.href = data.link;
-                eventLinkWrapper.target = '_blank';
-            }
-        });
-        
-        // --- 3. Lógica do Modal (MANTIDA) ---
-        
-        // Fechar modal pelo botão X
-        closeModalBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+            });
+            
+            // --- 4. Lógica de Navegação entre Modais ---
+            
+            // Fechar Dashboard
+            closeModalBtn.addEventListener('click', () => { modal.style.display = 'none'; });
 
-        // Fechar modal clicando fora
-        window.addEventListener('click', (event) => {
-            if (event.target == modal) {
+            // Abrir CRUD Eventos
+            crud1Btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openCrudEventosModal();
+            });
+
+            // Abrir CRUD Ingressos
+            crud2Btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openCrudIngressosModal();
+            });
+
+            // --- 5. Funções de CRUD ---
+
+            function openCrudEventosModal() {
+                const eventData = allEventsData[currentEventId];
+                if (!eventData) return;
+
+                crudEventosTitle.textContent = eventData.name;
+                
+                // Preencher formulário
+                eventCrudNome.value = eventData.name;
+                eventCrudCapacidade.value = eventData.capacity;
+                eventCrudDesc.value = eventData.description;
+
                 modal.style.display = 'none';
+                crudEventosModal.style.display = 'block';
             }
+
+            function openCrudIngressosModal() {
+                const eventData = allEventsData[currentEventId];
+                if (!eventData) return;
+
+                crudIngressosTitle.textContent = eventData.name;
+                renderIngressosTable(eventData.ticketTypes);
+
+                // Resetar formulário de ingresso
+                ticketForm.reset(); 
+                ticketId.value = '';
+
+                modal.style.display = 'none';
+                crudIngressosModal.style.display = 'block';
+            }
+
+            // Função para gerar a tabela de ingressos
+            function renderIngressosTable(tickets) {
+                ingressosTableBody.innerHTML = '';
+                if (tickets.length === 0) {
+                    ingressosTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhum ingresso cadastrado.</td></tr>';
+                    return;
+                }
+
+                tickets.forEach(ticket => {
+                    const row = ingressosTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${ticket.name}</td>
+                        <td>${ticket.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                        <td>${ticket.sold}</td>
+                        <td>${ticket.quantity}</td>
+                        <td>
+                            <button class="action-btn" onclick="editTicket(${currentEventId}, ${ticket.id})"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn" onclick="deleteTicket(${currentEventId}, ${ticket.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    `;
+                });
+            }
+
+            // --- 6. Manipulação de Dados Simulada (CRUD Operations) ---
+
+            // Ações de Eventos
+            eventosForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const eventData = allEventsData[currentEventId];
+                
+                eventData.name = eventCrudNome.value;
+                eventData.capacity = parseInt(eventCrudCapacidade.value);
+                eventData.description = eventCrudDesc.value;
+                
+                // Atualiza o nome no card (Simulação de persistência no DOM)
+                document.querySelector(`#${eventData.name.toLowerCase().replace(/[' ]/g, '')}Card .event-title`).textContent = eventData.name;
+
+                alert(`✅ Evento '${eventData.name}' atualizado com sucesso!`);
+                crudEventosModal.style.display = 'none';
+                // Volta para o Dashboard
+                openDashboard(eventData.id); 
+            });
+
+            // Ações de Ingressos (Salvar Novo / Editar Existente)
+            ticketForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const eventData = allEventsData[currentEventId];
+                const id = ticketId.value ? parseInt(ticketId.value) : null;
+                const name = ticketName.value;
+                const price = parseFloat(ticketPrice.value);
+                const quantity = parseInt(ticketQuantity.value);
+
+                if (id) {
+                    // Edição
+                    const ticketIndex = eventData.ticketTypes.findIndex(t => t.id === id);
+                    if (ticketIndex > -1) {
+                        eventData.ticketTypes[ticketIndex].name = name;
+                        eventData.ticketTypes[ticketIndex].price = price;
+                        eventData.ticketTypes[ticketIndex].quantity = quantity;
+                        alert(`✅ Ingresso '${name}' (ID: ${id}) editado com sucesso.`);
+                    }
+                } else {
+                    // Criação
+                    const newId = Math.max(0, ...eventData.ticketTypes.map(t => t.id)) + 1;
+                    eventData.ticketTypes.push({
+                        id: newId,
+                        name: name,
+                        price: price,
+                        quantity: quantity,
+                        sold: 0 // Novo ingresso começa com zero vendas
+                    });
+                    alert(`✅ Novo ingresso '${name}' (ID: ${newId}) criado com sucesso.`);
+                }
+
+                ticketForm.reset();
+                ticketId.value = '';
+                renderIngressosTable(eventData.ticketTypes);
+            });
+            
+            // Funções CRUD Ingressos expostas globalmente (para uso no onclick do HTML gerado)
+            window.editTicket = (eventId, ticketIdToEdit) => {
+                const eventData = allEventsData[eventId];
+                const ticket = eventData.ticketTypes.find(t => t.id === ticketIdToEdit);
+
+                if (ticket) {
+                    ticketId.value = ticket.id;
+                    ticketName.value = ticket.name;
+                    ticketPrice.value = ticket.price;
+                    ticketQuantity.value = ticket.quantity;
+                    document.getElementById('saveTicketBtn').innerHTML = '<i class="fas fa-save"></i> Salvar Edição';
+                }
+            }
+
+            window.deleteTicket = (eventId, ticketIdToDelete) => {
+                if (!confirm('Tem certeza que deseja excluir este tipo de ingresso?')) return;
+
+                const eventData = allEventsData[eventId];
+                const initialLength = eventData.ticketTypes.length;
+                eventData.ticketTypes = eventData.ticketTypes.filter(t => t.id !== ticketIdToDelete);
+                
+                if (eventData.ticketTypes.length < initialLength) {
+                    alert('🗑️ Ingresso excluído com sucesso.');
+                    renderIngressosTable(eventData.ticketTypes);
+                }
+            }
+
+            // --- 7. Lógica de Fechamento de Modais de CRUD ---
+
+            closeEventosModalBtn.addEventListener('click', () => {
+                crudEventosModal.style.display = 'none';
+                openDashboard(currentEventId);
+            });
+
+            closeIngressosModalBtn.addEventListener('click', () => {
+                crudIngressosModal.style.display = 'none';
+                openDashboard(currentEventId);
+            });
+            
+            // Função para reabrir o Dashboard após o CRUD
+            function openDashboard(eventId) {
+                const card = document.querySelector(`[data-event-id="${eventId}"] .event-link-wrapper`);
+                if (card) {
+                    // Simula o clique no link wrapper para reabrir o dashboard com dados atualizados
+                    card.click();
+                }
+            }
+
+            // Fechar modal clicando fora (geral)
+            window.addEventListener('click', (event) => {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                } else if (event.target == crudEventosModal) {
+                    crudEventosModal.style.display = 'none';
+                    openDashboard(currentEventId);
+                } else if (event.target == crudIngressosModal) {
+                    crudIngressosModal.style.display = 'none';
+                    openDashboard(currentEventId);
+                }
+            });
+            
         });
-        
-        // Lógica de simulação de CRUDs (Apenas alerta para feedback)
-        document.getElementById('crud1Btn').addEventListener('click', () => {
-            const eventName = modalEventTitle.textContent;
-            alert(`Abrindo CRUD de Eventos para: ${eventName}...`);
-        });
-        document.getElementById('crud2Btn').addEventListener('click', () => {
-            const eventName = modalEventTitle.textContent;
-            alert(`Abrindo CRUD de Ingressos para: ${eventName}...`);
-        });
-        
     </script>
-    <script src="login.js"></script> 
 </body>
 </html>

@@ -26,18 +26,9 @@
             white-space: nowrap; /* Evita quebra de linha no botão */
             padding: 8px 15px;
         }
-        /* Garantir que os botões Login/Cadastro estejam ocultos inicialmente */
+        /* Garantir que os botões Login/Cadastro estejam visíveis/ocultos conforme o JS */
         .login, .signup {
-            display: none;
-        }
-
-        /* Estilo para garantir que o link do card não tenha decoração extra */
-        .event-link-wrapper {
-            text-decoration: none;
-            color: inherit;
-        }
-        .event-link-wrapper .event-card {
-            cursor: pointer;
+            display: inline-block; /* Valor padrão para deslogado */
         }
         
         /* Estilização para o ícone do footer */
@@ -61,7 +52,7 @@
             </a>
         </div>
         <nav class="nav-links">
-            <a href="eventos.html" class="nav-item">Eventos</a>
+            <a href="eventos.html" class="nav-item" id="navEventos">Eventos</a>
             <a href="#" class="nav-item">Comunidade</a>
             <a href="https://moi-meme-moitie.com/" class="nav-item" target="_blank">Roupas</a>
             <a href="https://github.com/styxvoid" class="nav-item">Contate-nos</a>
@@ -179,41 +170,67 @@
     </footer>
 
     <script>
-        // --- 1. Lógica da Navbar e Login ---
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        // --- 1. Lógica da Navbar e Visibilidade Condicional ---
+        
         const userEmail = localStorage.getItem('userEmail');
-
+        const userType = localStorage.getItem('userType');
+        const isLoggedIn = !!userEmail; // Verifica se o email existe
+        
         const loginBtn = document.querySelector('.login');
         const signupBtn = document.querySelector('.signup');
         const welcomeContainer = document.getElementById('welcomeContainer');
         const welcomeText = document.getElementById('welcomeText');
         const logoutBtn = document.getElementById('logoutBtn');
+        
+        // Elementos condicionalmente visíveis (Eventos)
+        const navEventos = document.getElementById('navEventos');
+        const footerEventosLi = document.getElementById('footerEventosLi');
 
+
+        // LÓGICA DE EXIBIÇÃO DA NAVBAR E FOOTER
         if (isLoggedIn) {
+            // 1. Esconde Login/Cadastro e exibe Boas-vindas
             loginBtn.style.display = 'none';
             signupBtn.style.display = 'none';
-
             welcomeContainer.style.display = 'flex';
             
+            // 2. Monta a mensagem de boas-vindas
             let username = 'Usuário';
             if (userEmail) {
+                // Pega o nome antes do @ e capitaliza
                 username = userEmail.split('@')[0];
                 username = username.charAt(0).toUpperCase() + username.slice(1);
             }
-
             welcomeText.innerHTML = `Bem-vindo(a), <span class="user-name">${username}</span>!`;
+            
+            // 3. Controla a visibilidade do link 'Eventos'
+            if (userType !== 'funcionario') {
+                // Cliente ou tipo desconhecido: Oculta Eventos
+                if (navEventos) navEventos.style.display = 'none';
+                if (footerEventosLi) footerEventosLi.style.display = 'none';
+            } else {
+                // Funcionário: Exibe Eventos
+                if (navEventos) navEventos.style.display = 'inline-block';
+                if (footerEventosLi) footerEventosLi.style.display = 'list-item';
+            }
+            
         } else {
+            // Deslogado: Exibe Login/Cadastro e esconde Boas-vindas
             loginBtn.style.display = 'inline-block';
             signupBtn.style.display = 'inline-block';
-            
             welcomeContainer.style.display = 'none';
+            
+            // Deslogado: Oculta Eventos (pois é restrito a funcionários)
+            if (navEventos) navEventos.style.display = 'none';
+            if (footerEventosLi) footerEventosLi.style.display = 'none';
         }
 
-        // Lógica de Logout: Limpa o LocalStorage e recarrega
+        // Lógica de Logout: Limpa o LocalStorage e redireciona
         logoutBtn.addEventListener('click', () => {
-            localStorage.clear();
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userType');
             alert('Você foi desconectado. Redirecionando...');
-            window.location.reload(); 
+            window.location.href = 'index.html'; // Recarrega o index para refletir o estado deslogado
         });
 
         // --- 2. Lógica dos Cards (Redirecionamento) ---
@@ -222,21 +239,27 @@
         const bioDementiaCard = document.getElementById('bioDementiaCard');
         const bioDementiaLink = bioDementiaCard.getAttribute('data-link');
 
-        bioDementiaCard.addEventListener('click', () => {
-            window.open(bioDementiaLink, '_blank');
-        });
+        if (bioDementiaCard) {
+            bioDementiaCard.addEventListener('click', () => {
+                window.open(bioDementiaLink, '_blank');
+            });
+        }
 
         // Cards 2 e 3: Outros eventos -> Eventos.html
         const vampiresNightCard = document.getElementById('vampiresNightCard');
         const noirFestCard = document.getElementById('noirFestCard');
 
-        vampiresNightCard.addEventListener('click', () => {
-            window.location.href = 'eventos.html';
-        });
+        if (vampiresNightCard) {
+            vampiresNightCard.addEventListener('click', () => {
+                window.location.href = 'eventos.html';
+            });
+        }
 
-        noirFestCard.addEventListener('click', () => {
-            window.location.href = 'eventos.html';
-        });
+        if (noirFestCard) {
+            noirFestCard.addEventListener('click', () => {
+                window.location.href = 'eventos.html';
+            });
+        }
         
     </script>
 </body>

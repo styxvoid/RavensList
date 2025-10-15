@@ -6,6 +6,9 @@
     --color-text-light: #ffffff;
     --color-button-login: #d63031; 
     --color-button-signup: #ffffff;
+    
+    /* Variáveis para Modais - Usando cores existentes */
+    --modal-bg: #1c1c1c; /* Fundo do conteúdo do modal */
 }
 
 /* Reset básico e tipografia */
@@ -76,6 +79,21 @@ body {
     border-radius: 5px; 
 }
 
+/* Container de Boas-vindas para usuários logados */
+#welcomeContainer {
+    display: none; /* Controlado por JS, mas escondido por padrão */
+    align-items: center;
+    color: var(--color-text-light);
+    font-size: 0.95rem;
+    margin-right: 15px;
+    white-space: nowrap;
+}
+
+.user-name {
+    font-weight: bold;
+    color: var(--color-red-intro);
+    margin-left: 5px;
+}
 
 /* Estilo Base dos Botões de Ação */
 .btn {
@@ -103,10 +121,9 @@ body {
     box-shadow: 0 0 5px rgba(214, 48, 49, 0.8);
 }
 
-/* CORREÇÃO APLICADA AQUI: Usando :focus para cobrir o efeito de "pressionar" em links */
-.login.active, /* Estilo para o botão/link ativo */
+.login.active, 
 .login:active, 
-.login:focus { /* Adicionado :focus para acessibilidade e comportamento de clique */
+.login:focus { 
     background-color: var(--color-text-light); 
     color: var(--color-dark); 
 }
@@ -121,12 +138,11 @@ body {
     background-color: #f0f0f0; 
 }
 
-/* CORREÇÃO APLICADA AQUI: Adicionando :focus e garantindo a redefinição de cores */
 .signup:active,
 .signup:focus {
-    background-color: var(--color-dark);      
-    color: var(--color-text-light);           
-    box-shadow: 0 0 5px var(--color-text-light); /* Feedback visual */
+    background-color: var(--color-dark);      
+    color: var(--color-text-light);           
+    box-shadow: 0 0 5px var(--color-text-light); 
 }
 
 /* ----------------------------------- Banner Principal (Home Page) ----------------------------------- */
@@ -181,6 +197,7 @@ body {
 .events-list {
     display: flex;
     justify-content: center; 
+    flex-wrap: wrap; /* Adicionado para acomodar mais itens em telas menores */
     gap: 30px; 
     padding: 0 40px 60px 40px; 
     max-width: 1280px; 
@@ -194,35 +211,40 @@ body {
     display: block;
 }
 
-/* CORREÇÃO APLICADA: Estrutura de Card com Imagem no Topo */
 .event-card {
     width: 300px; 
-    height: auto; /* Deixa a altura flexível */
-    padding: 0; /* Remove padding total */
+    height: auto; 
+    padding: 0; 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow: hidden; /* Importante para o canto arredondado da imagem */
+    overflow: hidden; 
     background-color: var(--color-red-card); 
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
     border-radius: 8px; 
     cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
 }
 
 .event-image-container {
     width: 100%;
-    height: 150px; /* Altura fixa para a capa do evento */
+    height: 150px; 
     overflow: hidden;
 }
 
 .card-cover-image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Garante que a imagem preencha o container sem distorcer */
+    object-fit: cover; 
 }
 
 .event-details-content {
-    padding: 15px; /* Adiciona o padding de volta, mas apenas no conteúdo de texto */
+    padding: 15px; 
     display: flex;
     flex-direction: column;
 }
@@ -235,7 +257,7 @@ body {
     font-weight: bold;
     text-transform: uppercase;
     font-family: 'Times New Roman', serif;
-    color: var(--color-text-light); /* Garante que o texto dentro do link permaneça claro */
+    color: var(--color-text-light); 
 }
 
 /* Ajusta o alinhamento do ícone e texto */
@@ -350,7 +372,7 @@ body {
 }
 
 
-/* ----------------------------------- LOGIN PAGE ----------------------------------- */
+/* ----------------------------------- LOGIN / CADASTRO PAGE ----------------------------------- */
 .login-main {
     min-height: calc(100vh - 60px); 
     display: flex;
@@ -367,21 +389,17 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     overflow: hidden;
-    /* Altura ajustada para o novo conteúdo */
     min-height: 400px; 
 }
-
-/* REMOVIDO: .login-card-image (a imagem dos esqueletos foi removida do HTML) */
 
 .login-card-content {
     position: relative;
     z-index: 5; 
-    padding: 30px 40px; /* Reduzimos o padding superior/inferior */
+    padding: 30px 40px; 
     text-align: center;
     color: var(--color-text-light);
 }
 
-/* CORREÇÃO APLICADA: Estilos para a nova imagem acima do formulário */
 .card-image-above-form {
     width: 100%; 
     text-align: center;
@@ -392,7 +410,6 @@ body {
 .form-illustration-img {
     max-width: 80%; 
     height: auto;
-    /* Estilo para dar um toque gótico/dramático se a imagem permitir */
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
 }
 
@@ -404,8 +421,6 @@ body {
     text-transform: uppercase;
     font-family: 'Times New Roman', serif;
 }
-
-/* REMOVIDO: .login-card-text-gothic (o texto gótico foi removido do HTML) */
 
 .login-form {
     display: flex;
@@ -443,9 +458,8 @@ body {
     border: 0;
 }
 
-/* ----------------------------------- MODAL/POPUP (Funcionario) ----------------------------------- */
+/* ----------------------------------- MODAL/POPUP GERAL ----------------------------------- */
 .modal-overlay {
-    /* Esconde o modal por padrão */
     display: none; 
     position: fixed;
     z-index: 1000; 
@@ -459,15 +473,17 @@ body {
 }
 
 .modal-content {
+    background-color: var(--modal-bg); /* Fundo mais escuro para destaque */
     margin: 10% auto; 
     padding: 30px;
     border: 1px solid var(--color-red-intro);
-    width: 500px;
+    width: 600px; /* Aumentado para o Dashboard e CRUDs */
     max-width: 90%;
     border-radius: 10px;
     position: relative;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 25px rgba(214, 48, 49, 0.3); /* Sombra vermelha */
     text-align: center;
+    color: var(--color-text-light);
 }
 
 .close-btn {
@@ -480,6 +496,7 @@ body {
     position: absolute;
     top: 10px;
     right: 20px;
+    transition: color 0.2s;
 }
 
 .close-btn:hover,
@@ -493,38 +510,200 @@ body {
     margin-bottom: 25px;
     font-size: 1.8rem;
     text-transform: uppercase;
+    font-family: 'Times New Roman', serif;
+}
+
+/* ----------------------------------- MODAL DASHBOARD (eventos.html) ----------------------------------- */
+.dashboard-metrics {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.metric-box {
+    background-color: var(--color-dark);
+    border: 1px solid var(--color-red-intro);
+    border-radius: 8px;
+    padding: 15px;
+    width: 45%;
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-red-intro);
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+.chart-section {
+    margin-bottom: 30px;
+}
+
+.chart-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+#chartContainer {
+    height: 150px;
+    background-color: var(--color-dark);
+    border: 1px solid #333;
+    border-radius: 5px;
+    display: flex;
+    align-items: flex-end; /* As barras crescem de baixo para cima */
+    justify-content: space-around;
+    padding: 10px;
+    gap: 5px;
+}
+
+.chart-bar {
+    width: 15%;
+    min-width: 20px;
+    background-color: var(--color-red-card);
+    transition: height 0.5s;
+    position: relative;
+    border-radius: 3px 3px 0 0;
+}
+
+.chart-bar span:first-child { /* O valor de vendas no topo */
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--color-text-light);
+}
+
+.chart-label {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    white-space: nowrap;
+    color: #ccc;
 }
 
 .modal-buttons {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 15px;
     margin-top: 20px;
 }
 
 .modal-btn {
     padding: 12px 20px;
-    width: 100%;
-    background-color: var(--color-text-light); 
-    color: var(--color-dark); 
-    margin-left: 0; /* Anula o margin-left de .btn */
+    width: 48%; /* Para ocupar quase metade do espaço */
+    background-color: var(--color-button-login); 
+    color: var(--color-text-light); 
+    margin-left: 0; 
+}
+
+.modal-btn.secondary {
+    background-color: var(--color-red-card);
 }
 
 .modal-btn:hover {
-    background-color: #f0f0f0;
+    filter: brightness(1.2);
 }
 
-.modal-action-hint {
+/* ----------------------------------- MODAL CRUD (eventos.html) ----------------------------------- */
+.crud-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.crud-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--color-red-intro);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+}
+
+.crud-form input[type="text"],
+.crud-form input[type="number"],
+.crud-form textarea {
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: var(--color-dark);
+    color: var(--color-text-light);
+    font-size: 1rem;
+}
+
+.crud-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.crud-submit {
+    background-color: var(--color-button-login);
+    color: var(--color-text-light);
+    padding: 12px 20px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.crud-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.crud-table th, .crud-table td {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.crud-table th {
+    background-color: var(--color-red-card);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.crud-table .btn-edit {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
     font-size: 0.8rem;
-    color: #ccc;
-    margin-top: 30px;
-    font-style: italic;
+    margin-left: 0;
 }
 
-/* ----------------------------------- EVENTOS: CONTROLES E PESQUISA (NOVO) ----------------------------------- */
+.crud-table .btn-delete {
+    background-color: var(--color-button-login);
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+.crud-table .btn-edit:hover,
+.crud-table .btn-delete:hover {
+    filter: brightness(1.2);
+}
+
+/* ----------------------------------- EVENTOS: CONTROLES E PESQUISA ----------------------------------- */
 .events-controls {
     max-width: 1280px; 
-    margin: 20px auto 40px auto; /* Espaço do topo e do rodapé */
+    margin: 20px auto 40px auto; 
     padding: 0 40px;
     display: flex;
     justify-content: space-between;
@@ -532,18 +711,28 @@ body {
 }
 
 .search-container {
-    flex-grow: 1; /* Ocupa a maior parte do espaço */
+    flex-grow: 1; 
     max-width: 400px; 
 }
 
 .search-input {
     width: 100%;
     padding: 10px 15px;
-    background-color: var(--color-red-card); /* Fundo vermelho do Figma */
+    background-color: var(--color-red-card); 
     color: var(--color-text-light);
     border: none;
     border-radius: 5px;
     font-size: 1rem;
+    transition: box-shadow 0.2s;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--color-red-intro);
 }
 
 .filter-container {
@@ -561,10 +750,9 @@ body {
 
 .filter-checkbox input[type="checkbox"] {
     margin-right: 5px;
-    /* Estilos customizados para o checkbox se desejar (não essencial, mas recomendado) */
     width: 15px;
     height: 15px;
-    accent-color: var(--color-red-intro); /* Cor de destaque ao marcar */
+    accent-color: var(--color-red-intro); 
 }
 
 .filter-select {
@@ -574,4 +762,5 @@ body {
     border: 1px solid var(--color-red-card);
     border-radius: 5px;
     cursor: pointer;
+    text-transform: uppercase;
 }
