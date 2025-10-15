@@ -1,0 +1,577 @@
+/* Variáveis para fácil alteração de cores */
+:root {
+    --color-dark: #000000;
+    --color-red-card: #8F1717; /* Tom de vermelho escuro para os cards */
+    --color-red-intro: #d03030; /* Vermelho vibrante para o texto da introdução e hover/active */
+    --color-text-light: #ffffff;
+    --color-button-login: #d63031; 
+    --color-button-signup: #ffffff;
+}
+
+/* Reset básico e tipografia */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--color-dark);
+    color: var(--color-text-light);
+    min-height: 100vh;
+}
+
+/* ----------------------------------- HEADER e NAVBAR ----------------------------------- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background-color: var(--color-dark);
+    /* Borda inferior vermelha para separação visual */
+    border-bottom: 1px solid var(--color-red-intro); 
+}
+
+.logo-container {
+    /* Altura da logo */
+    height: 40px;
+}
+
+.logo-container a {
+    display: inline-block; /* Garante que o link ocupe o tamanho da imagem */
+    height: 100%;
+}
+
+.logo-img {
+    height: 100%;
+    width: auto;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo Base dos Itens de Navegação */
+.nav-item {
+    color: var(--color-text-light);
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 5px 10px;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Efeito Hover/Active no Item de Navegação (Formato Retangular Arredondado) */
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); 
+    border-radius: 5px; 
+}
+
+.nav-item:active {
+    background-color: var(--color-button-login);
+    color: var(--color-text-light);
+    border-radius: 5px; 
+}
+
+
+/* Estilo Base dos Botões de Ação */
+.btn {
+    padding: 8px 15px;
+    margin-left: 15px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border-radius: 5px; 
+    white-space: nowrap;
+    transition: background-color 0.2s, color 0.2s; 
+    text-decoration: none; /* Adicionado para links <a> */
+    display: inline-block; /* Adicionado para links <a> terem padding e largura */
+}
+
+/* Botão LOGIN */
+.login {
+    background-color: var(--color-button-login); 
+    color: var(--color-text-light); 
+}
+
+.login:hover {
+    box-shadow: 0 0 5px rgba(214, 48, 49, 0.8);
+}
+
+/* CORREÇÃO APLICADA AQUI: Usando :focus para cobrir o efeito de "pressionar" em links */
+.login.active, /* Estilo para o botão/link ativo */
+.login:active, 
+.login:focus { /* Adicionado :focus para acessibilidade e comportamento de clique */
+    background-color: var(--color-text-light); 
+    color: var(--color-dark); 
+}
+
+/* Botão CADASTRE-SE */
+.signup {
+    background-color: var(--color-button-signup); 
+    color: var(--color-dark); 
+}
+
+.signup:hover {
+    background-color: #f0f0f0; 
+}
+
+/* CORREÇÃO APLICADA AQUI: Adicionando :focus e garantindo a redefinição de cores */
+.signup:active,
+.signup:focus {
+    background-color: var(--color-dark);      
+    color: var(--color-text-light);           
+    box-shadow: 0 0 5px var(--color-text-light); /* Feedback visual */
+}
+
+/* ----------------------------------- Banner Principal (Home Page) ----------------------------------- */
+.hero-section {
+    background-color: var(--color-dark);
+    padding: 0;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    height: 400px; 
+    overflow: hidden; 
+}
+
+.hero-banner-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+/* ----------------------------------- INTRODUÇÃO E EVENTOS ----------------------------------- */
+.events-intro {
+    padding: 40px;
+    padding-bottom: 20px;
+    max-width: 1280px; 
+    margin: 0 auto;
+}
+
+.intro-text {
+    font-size: 1.2rem;
+    color: var(--color-red-intro);
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.intro-subtitle {
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: var(--color-text-light);
+    margin-top: 5px;
+}
+
+.events-list {
+    display: flex;
+    justify-content: center; 
+    gap: 30px; 
+    padding: 0 40px 60px 40px; 
+    max-width: 1280px; 
+    margin: 0 auto;
+}
+
+/* O wrapper de link deve ser estilizado como um bloco para conter o card */
+.event-link-wrapper {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* CORREÇÃO APLICADA: Estrutura de Card com Imagem no Topo */
+.event-card {
+    width: 300px; 
+    height: auto; /* Deixa a altura flexível */
+    padding: 0; /* Remove padding total */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden; /* Importante para o canto arredondado da imagem */
+    background-color: var(--color-red-card); 
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px; 
+    cursor: pointer;
+}
+
+.event-image-container {
+    width: 100%;
+    height: 150px; /* Altura fixa para a capa do evento */
+    overflow: hidden;
+}
+
+.card-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a imagem preencha o container sem distorcer */
+}
+
+.event-details-content {
+    padding: 15px; /* Adiciona o padding de volta, mas apenas no conteúdo de texto */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Títulos do Card */
+.event-title {
+    font-size: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 10px; 
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Times New Roman', serif;
+    color: var(--color-text-light); /* Garante que o texto dentro do link permaneça claro */
+}
+
+/* Ajusta o alinhamento do ícone e texto */
+.event-icon-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.event-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    margin-bottom: 0;
+    overflow: hidden; 
+    background-color: var(--color-dark); 
+    border: 2px solid var(--color-text-light); 
+}
+
+.icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+}
+
+
+.event-venue,
+.event-description {
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* ----------------------------------- Rodapé ----------------------------------- */
+.main-footer {
+    background-color: var(--color-dark);
+    color: var(--color-text-light);
+    padding: 60px 40px;
+    border-top: 1px solid #222;
+}
+
+.footer-content {
+    display: flex;
+    max-width: 1200px; 
+    margin: 0 auto;
+    gap: 150px; 
+    align-items: flex-start;
+}
+
+/* Estilo da seção de Mídias Sociais */
+.social-links {
+    display: flex;
+    gap: 15px; 
+    padding-top: 10px; 
+}
+
+.social-links a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--color-red-intro);
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+}
+
+/* Estilo da seção de Contato/Links */
+.footer-section {
+    border-left: 1px solid #555; 
+    padding-left: 20px;
+    margin-left: 20px;
+}
+
+.contact-links {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.footer-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+    color: var(--color-red-intro);
+    text-decoration: underline;
+}
+
+
+/* ----------------------------------- LOGIN PAGE ----------------------------------- */
+.login-main {
+    min-height: calc(100vh - 60px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0; 
+}
+
+.login-card-container {
+    position: relative;
+    width: 600px; 
+    max-width: 90%; 
+    background-color: var(--color-red-card); 
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    /* Altura ajustada para o novo conteúdo */
+    min-height: 400px; 
+}
+
+/* REMOVIDO: .login-card-image (a imagem dos esqueletos foi removida do HTML) */
+
+.login-card-content {
+    position: relative;
+    z-index: 5; 
+    padding: 30px 40px; /* Reduzimos o padding superior/inferior */
+    text-align: center;
+    color: var(--color-text-light);
+}
+
+/* CORREÇÃO APLICADA: Estilos para a nova imagem acima do formulário */
+.card-image-above-form {
+    width: 100%; 
+    text-align: center;
+    margin-bottom: 20px; 
+    display: block;
+}
+
+.form-illustration-img {
+    max-width: 80%; 
+    height: auto;
+    /* Estilo para dar um toque gótico/dramático se a imagem permitir */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.form-title {
+    color: var(--color-text-light);
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-family: 'Times New Roman', serif;
+}
+
+/* REMOVIDO: .login-card-text-gothic (o texto gótico foi removido do HTML) */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: var(--color-dark);
+    background-color: var(--color-text-light); 
+}
+
+.login-submit {
+    background-color: var(--color-button-login); 
+    color: var(--color-text-light);
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 0; 
+    padding: 15px; 
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* ----------------------------------- MODAL/POPUP (Funcionario) ----------------------------------- */
+.modal-overlay {
+    /* Esconde o modal por padrão */
+    display: none; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); 
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    margin: 10% auto; 
+    padding: 30px;
+    border: 1px solid var(--color-red-intro);
+    width: 500px;
+    max-width: 90%;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.close-btn {
+    color: var(--color-text-light);
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--color-red-intro);
+    text-decoration: none;
+}
+
+.modal-title {
+    color: var(--color-text-light);
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.modal-btn {
+    padding: 12px 20px;
+    width: 100%;
+    background-color: var(--color-text-light); 
+    color: var(--color-dark); 
+    margin-left: 0; /* Anula o margin-left de .btn */
+}
+
+.modal-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.modal-action-hint {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin-top: 30px;
+    font-style: italic;
+}
+
+/* ----------------------------------- EVENTOS: CONTROLES E PESQUISA (NOVO) ----------------------------------- */
+.events-controls {
+    max-width: 1280px; 
+    margin: 20px auto 40px auto; /* Espaço do topo e do rodapé */
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-container {
+    flex-grow: 1; /* Ocupa a maior parte do espaço */
+    max-width: 400px; 
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: var(--color-red-card); /* Fundo vermelho do Figma */
+    color: var(--color-text-light);
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.filter-checkbox {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.filter-checkbox input[type="checkbox"] {
+    margin-right: 5px;
+    /* Estilos customizados para o checkbox se desejar (não essencial, mas recomendado) */
+    width: 15px;
+    height: 15px;
+    accent-color: var(--color-red-intro); /* Cor de destaque ao marcar */
+}
+
+.filter-select {
+    padding: 8px 10px;
+    background-color: var(--color-dark);
+    color: var(--color-text-light);
+    border: 1px solid var(--color-red-card);
+    border-radius: 5px;
+    cursor: pointer;
+}

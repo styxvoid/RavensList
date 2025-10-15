@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Raven's List - Login</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo-container">
+            <a href="index.html" title="Ir para a página inicial">
+                <img src="images/ravens_list.png" alt="The Raven's List Logo" class="logo-img"> 
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="eventos.html" class="nav-item">Eventos</a>
+            <a href="#" class="nav-item">Comunidade</a>
+            <a href="https://moi-meme-moitie.com/" class="nav-item" target="_blank">Roupas</a>
+            <a href="https://github.com/styxvoid" class="nav-item">Contate-nos</a>
+            </nav>
+    </header>
+
+    <main class="login-main">
+        <section class="login-hero">
+            
+            <div class="login-card-container">
+                
+                <div class="login-card-content">
+                    
+                    <div class="card-image-above-form">
+                        <img src="images/abandonai.png" alt="Ilustração acima do formulário" class="form-illustration-img">
+                    </div>
+                    
+                    <form class="login-form" id="loginForm">
+                        
+                        <h2 class="form-title">Login</h2>
+
+                        <label for="email" class="sr-only">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Email" required class="login-input">
+
+                        <label for="senha" class="sr-only">Senha</label>
+                        <input type="password" id="senha" name="senha" placeholder="Senha" required class="login-input">
+                        
+                        <p class="cadastro-link-text">
+                            Não possui conta? 
+                            <a href="cadastro.html" class="cadastro-link">Cadastre-se aqui!</a>
+                        </p>
+
+                        <button type="submit" class="btn login-submit">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Contas Válidas pré-existentes (Fixas)
+            let validUsers = {
+                "funcionario@email.com": { senha: "funcionario123", tipo: "funcionario" },
+                "cliente@email.com": { senha: "cliente123", tipo: "cliente" }
+            };
+            
+            // Carrega contas salvas do localStorage e mescla
+            const storedUsers = localStorage.getItem('storedUsers');
+            if (storedUsers) {
+                try {
+                    const parsedUsers = JSON.parse(storedUsers);
+                    validUsers = { ...validUsers, ...parsedUsers };
+                } catch (e) {
+                    console.error("Erro ao carregar usuários do localStorage:", e);
+                }
+            }
+
+            // Seleciona o formulário (usando a classe, pois o ID não estava no HTML original)
+            const loginForm = document.querySelector('.login-form');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const emailInput = document.getElementById('email').value.trim();
+                    const passwordInput = document.getElementById('senha').value.trim();
+                    
+                    const user = validUsers[emailInput]; // Busca o usuário na lista combinada
+
+                    if (user && user.senha === passwordInput) {
+                        // Login VÁLIDO: Armazena o email e o tipo de usuário
+                        localStorage.setItem('userEmail', emailInput);
+                        localStorage.setItem('userType', user.tipo);
+                        // localStorage.setItem('isLoggedIn', 'true'); // Opcional, mas 'userEmail' já indica login
+
+                        alert(`Login bem-sucedido como ${user.tipo}!`);
+                        
+                        // Redirecionamento Condicional
+                        if (user.tipo === 'funcionario') {
+                            window.location.href = 'eventos.html'; 
+                        } else {
+                            window.location.href = 'index.html'; 
+                        }
+                        
+                    } else {
+                        // Login INVÁLIDO
+                        localStorage.removeItem('userEmail');
+                        localStorage.removeItem('userType');
+                        alert('Email ou senha incorretos. Tente novamente.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Raven's List - Cadastro</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo-container">
+            <a href="index.html" title="Ir para a página inicial">
+                <img src="images/ravens_list.png" alt="The Raven's List Logo" class="logo-img"> 
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="#" class="nav-item">Comunidade</a>
+            <a href="https://moi-meme-moitie.com/" class="nav-item" target="_blank">Roupas</a>
+            <a href="https://github.com/styxvoid" class="nav-item">Contate-nos</a>
+            </nav>
+    </header>
+
+    <main class="login-main">
+        <section class="login-hero">
+            
+            <div class="login-card-container">
+                
+                <div class="login-card-content">
+                    
+                    <div class="card-image-above-form">
+                        <img src="images/abandonai.png" alt="Ilustração acima do formulário" class="form-illustration-img">
+                    </div>
+                    
+                    <form class="login-form" id="registerForm">
+                        
+                        <h2 class="form-title">Cadastro</h2>
+                        
+                        <label for="regEmail" class="sr-only">Email</label>
+                        <input type="email" id="regEmail" name="email" placeholder="Email" required class="login-input">
+
+                        <label for="regSenha" class="sr-only">Senha</label>
+                        <input type="password" id="regSenha" name="senha" placeholder="Senha" required class="login-input">
+
+                        <label for="regConfirmaSenha" class="sr-only">Confirme a Senha</label>
+                        <input type="password" id="regConfirmaSenha" name="confirmaSenha" placeholder="Confirme a senha" required class="login-input">
+                        
+                        <p class="cadastro-link-text">
+                            Já possui conta? 
+                            <a href="login.html" class="cadastro-link">Faça login aqui!</a>
+                        </p>
+
+
+                        <button type="submit" class="btn login-submit">Cadastrar</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o envio padrão do formulário
+            
+            const senha = document.getElementById('regSenha').value;
+            const confirmaSenha = document.getElementById('regConfirmaSenha').value;
+            
+            // 1. Validação de Senhas
+            if (senha !== confirmaSenha) {
+                alert('As senhas não coincidem. Tente novamente.');
+                return;
+            }
+            
+            // 2. Define a relação como 'cliente' e salva o estado de login
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userType', 'cliente');
+            
+            // 3. Feedback e Redirecionamento
+            alert('Cadastro realizado com sucesso! Você será redirecionado para a página inicial.');
+            window.location.href = 'index.html'; // Redireciona para index.html
+        });
+    </script>
+</body>
+</html>
